@@ -92,7 +92,7 @@ class CondaKernelSpecManager(KernelSpecManager):
         return new_value
 
     name_format = Unicode(
-        '{language} [conda env:{environment}]',
+        '{language} ({environment})',
         config=True,
         help="""String name format; available field names within the string:
         '{0}' = Language
@@ -238,8 +238,8 @@ class CondaKernelSpecManager(KernelSpecManager):
                 # directory named 'envs' is a collection of environments
                 # as created by, say, conda or anaconda-project. The name
                 # of the parent directory, then, provides useful context.
-                if basename(env_base) == 'envs' and (env_base != envs_prefix or env_name in all_envs):
-                    env_name = u'{}-{}'.format(basename(dirname(env_base)), env_name)
+                # if basename(env_base) == 'envs' and (env_base != envs_prefix or env_name in all_envs):    # NO LONGER NEEDED
+                #    env_name = u'{}-{}'.format(basename(dirname(env_base)), env_name)
             # Further disambiguate, if necessary, with a counter.
             if env_name in all_envs:
                 base_name = env_name
@@ -292,8 +292,8 @@ class CondaKernelSpecManager(KernelSpecManager):
                 elif kernel_name == 'ir':
                     kernel_name = 'r'
                 is_base = env_name == self.base_name
-                kernel_prefix = '' if is_base else 'env-'
-                kernel_name = u'conda-{}{}-{}'.format(kernel_prefix, env_name, kernel_name)
+                # kernel_prefix = '' if is_base else 'env-'    # NO LONGER NEEDED
+                kernel_name = u'conda-{}-{}'.format(env_name, kernel_name)
                 # Replace invalid characters with dashes
                 kernel_name = self.clean_kernel_name(kernel_name)
 
